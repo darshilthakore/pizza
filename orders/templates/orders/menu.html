@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Hello</title>
+		<style>
+			.column {
+				float: left;
+				padding: 10px;
+				width: 170px;
+			}
+			.row {
+				content: "";
+				display: table;
+				clear: both;
+			}
+
+			.cart {
+				height: 100%;
+				width: 400px;
+				position: fixed;
+				z-index: 1;
+				top: 0;
+				right: 0;
+				background-color: lightgray;
+				overflow-x: hidden; 
+			}
+		</style>
+	</head>
+	<body>
+	<h2>Menu</h2>
+	<h3>Regular Pizza</h3>
+	<div class="row">
+		<div class="column">Pizza</div>
+		<div class="column">Size</div>
+		<div class="column">Extra Toppings</div>
+		<div class="column">Order</div>
+	</div>
+	{% for regularpizza in regularpizzas %}
+		<form action="" method="post">
+			{% csrf_token %}
+			<div class="row">
+				<div class="column">{{ regularpizza.name }}</div>
+				<div class="column">
+					<select name="price">
+						<option value="{{ regularpizza.price_small }}">Small : ${{ regularpizza.price_small }}</option>
+						<option value="{{ regularpizza.price_large }}">Large : ${{ regularpizza.price_large }}</option>						
+					</select>
+				</div>
+				<div class="column">
+						
+					<select name="toppings" size="2" multiple>
+						{% for topping in toppings %}
+							<option value="{{ topping.id }}">{{topping.name}} : ${{topping.price_small }}</option>
+						{% endfor %}
+					</select>
+						
+				</div>
+				<div class="column"><input type="submit" value="Add to cart"/></div>
+			</div>
+		</form>
+	{% endfor %}
+	<h3>Sicilian Pizza</h3>
+	<div class="row">
+		<div class="column">Pizza</div>
+		<div class="column">Size</div>
+		<div class="column">Extra Toppings</div>
+		<div class="column">Order</div>
+	</div>
+	{% for sicilianpizza in sicilianpizzas %}
+		<form action="" method="post">
+			{% csrf_token %}
+			<div class="row">
+				<div class="column">{{ sicilianpizza.name }}</div>
+				<div class="column">
+					<select name="price">
+						<option value="{{ sicilianpizza.price_small }}">Small : ${{ sicilianpizza.price_small }}</option>
+						<option value="{{ sicilianpizza.price_large }}">Large : ${{ sicilianpizza.price_large }}</option>						
+					</select>
+				</div>
+				<div class="column">
+						
+					<select name="toppings" size="2" multiple>
+						{% for topping in toppings %}
+							<option value="{{ topping.id }}">{{topping.name}} : ${{topping.price_small }}</option>
+						{% endfor %}
+					</select>
+						
+				</div>
+				<div class="column"><input type="submit" value="Add to cart"/></div>
+			</div>
+		</form>
+	{% endfor %}
+
+	
+	<div class="cart">
+		<h2 align="center">Your Cart</h2>
+		{% if user_cart %}
+				{% for c in user_cart %}
+				<div><p><b>Pizza: {{ c.item_name }} | Base Price: ${{ c.item_price }}</b></p></div>
+				<div>
+					<ul>
+						{% for topping in c.extra_toppings.all %}
+							<li><p> Topping : {{ topping.topping }} | Extra charge : ${{ topping.rate }}<p></li>
+						{% empty %}
+							<p> No toppings. </p>
+						{% endfor %}
+					</ul>
+				</div>
+				{% endfor %}
+			<div><b>Total costs: ${{ total }}</b></div>
+			<form action="" method="post">
+				{% csrf_token %}
+				<input id="order-btn" type="submit" value="Order">
+			</form>
+		{% else %}
+			<div><b>Empty Cart</b></div>
+		{% endif %}
+	</div>
+
+	</body>
+</html>
