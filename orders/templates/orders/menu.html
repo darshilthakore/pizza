@@ -36,7 +36,7 @@
 		<div class="column">Order</div>
 	</div>
 	{% for regularpizza in regularpizzas %}
-		<form action="" method="post">
+		<form action="{% url 'cart' regularpizza.id %}" method="post">
 			{% csrf_token %}
 			<div class="row">
 				<div class="column">{{ regularpizza.name }}</div>
@@ -59,7 +59,7 @@
 			</div>
 		</form>
 	{% endfor %}
-	<h3>Sicilian Pizza</h3>
+<!-- 	<h3>Sicilian Pizza</h3>
 	<div class="row">
 		<div class="column">Pizza</div>
 		<div class="column">Size</div>
@@ -90,7 +90,7 @@
 			</div>
 		</form>
 	{% endfor %}
-
+ -->
 	
 	<div class="cart">
 		<h2 align="center">Your Cart</h2>
