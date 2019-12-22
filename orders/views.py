@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 # Create your views here.
-from .models import Category, Item, Cart, Topping
+from .models import Category, Item, Cart, Topping, Order
 
 def index(request):
 	if not request.user.is_authenticated:
@@ -90,3 +90,21 @@ def cart(request, item_id):
 			cart.topping.add(topping)
 
 		return HttpResponseRedirect(reverse("index"))
+
+
+
+def submit_order(request):
+	user = request.user.first_name
+	print(f"Ordered placed by {user}")
+	c = Cart.objects.filter(user=user)
+	print(f"contents of cart for {user} are {c}")
+	#move the data to the order table
+	for cart in c:
+		order = Order(customer=cart.user, item=cart.item, base_price=cart.base_price, grand_total=cart.grand_total)
+		order.save()
+		order.topping.add(cart.topping)
+	#clear the cart
+	for cart in c:
+		cart.delete()
+
+	return HttpResponseRedirect(reverse("index"))

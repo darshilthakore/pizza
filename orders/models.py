@@ -51,3 +51,17 @@ class Cart(models.Model):
 	topping = models.ManyToManyField(Topping, blank=True, related_name="carttopping")
 	base_price = models.FloatField(default=0)
 	grand_total = models.FloatField(default=0)
+
+	def __str__(self):
+		return f"Cart | {self.user} | {self.item.name}"
+
+
+class Order(models.Model):
+	customer = models.CharField(max_length=64)
+	item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="orderitem")
+	topping = models.ManyToManyField(Topping, blank=True, related_name="ordertopping")
+	base_price = models.FloatField(default=0)
+	grand_total = models.FloatField(default=0)
+
+	def __str__(self):
+		return f"Order | {self.customer} | {self.item.name}"

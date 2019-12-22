@@ -126,7 +126,7 @@
 				</div>
 				{% endfor %}
 			<div><b>Total costs: ${{ total }}</b></div>
-			<form action="" method="post">
+			<form action="{% url 'order' %}" method="post">
 				{% csrf_token %}
 				<input id="order-btn" type="submit" value="Order">
 			</form>
