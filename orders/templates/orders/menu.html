@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Hello</title>
+		<title>Pinochio's Pizza & Subs : Menu | {{ user.first_name }}</title>
 		<style>
 			.column {
 				float: left;
@@ -24,9 +24,27 @@
 				background-color: lightgray;
 				overflow-x: hidden; 
 			}
+			.logout-btn a {
+				  padding: 6px 8px 6px 16px;
+				  text-decoration: none;
+				  font-size: 25px;
+				  color: black;
+				  display: block;
+			}
+
+			.logout-btn a:hover {
+			  background-color: #ddd;
+			  color: black;
+
+			}
+
 		</style>
 	</head>
 	<body>
+	<h1> Welcome {{ user.first_name }}</h1>
+	<div class="logout-btn">
+		<a href="{% url 'logout' %}">LogOut</a>
+	</div>
 	<h2>Menu</h2>
 	<h3>Regular Pizza</h3>
 	<div class="row">
@@ -50,7 +68,7 @@
 						
 					<select name="toppings" size="2" multiple>
 						{% for topping in toppings %}
-							<option value="{{ topping.id }}">{{topping.name}} : ${{topping.price_small }}</option>
+							<option value="{{ topping.id }}">{{topping.name}} : ${{topping.rate }}</option>
 						{% endfor %}
 					</select>
 						
@@ -96,11 +114,11 @@
 		<h2 align="center">Your Cart</h2>
 		{% if user_cart %}
 				{% for c in user_cart %}
-				<div><p><b>Pizza: {{ c.item_name }} | Base Price: ${{ c.item_price }}</b></p></div>
+				<div><p><b>Pizza: {{ c.item.name }} | Base Price: ${{ c.base_price }}</b></p></div>
 				<div>
 					<ul>
-						{% for topping in c.extra_toppings.all %}
-							<li><p> Topping : {{ topping.topping }} | Extra charge : ${{ topping.rate }}<p></li>
+						{% for topping in c.topping.all %}
+							<li><p> Topping : {{ topping.name }} | Extra charge : ${{ topping.rate }}<p></li>
 						{% empty %}
 							<p> No toppings. </p>
 						{% endfor %}

@@ -22,6 +22,12 @@ from django.db import models
 # 	def __str__(self):
 # 		return f"{self.category} - {self.name} | Small : ${self.price_small} | Large : ${self.price_large}"
 
+class Topping(models.Model):
+	name = models.CharField(max_length=64)
+	rate = models.FloatField()
+
+	def __str__(self):
+		return f"{self.name}"
 
 class Category(models.Model):
 	name = models.CharField(max_length=64, primary_key=True)
@@ -42,3 +48,6 @@ class Item(models.Model):
 class Cart(models.Model):
 	user = models.CharField(max_length=64)
 	item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="cartitem")
+	topping = models.ManyToManyField(Topping, blank=True, related_name="carttopping")
+	base_price = models.FloatField(default=0)
+	grand_total = models.FloatField(default=0)
