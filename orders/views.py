@@ -102,7 +102,8 @@ def submit_order(request):
 	for cart in c:
 		order = Order(customer=cart.user, item=cart.item, base_price=cart.base_price, grand_total=cart.grand_total)
 		order.save()
-		order.topping.add(cart.topping)
+		for topping in cart.topping.all():
+			order.topping.add(topping)
 	#clear the cart
 	for cart in c:
 		cart.delete()
