@@ -17,6 +17,8 @@ def index(request):
 	print(f"cart is this: {cart}")
 	user_cart = []
 
+
+	#getting cart total
 	total = 0
 	for c in cart:
 		user_cart.append(c)
@@ -24,6 +26,9 @@ def index(request):
 
 	print(user_cart)
 
+
+	order = Order.objects.filter(customer=fname)
+	print(f"order is {order}")
 	context = {
 		"user": request.user,
 		"regularpizzas": regularpizza.itemname.all(),
@@ -31,6 +36,7 @@ def index(request):
 		"toppings": Topping.objects.all(),
 		"user_cart": user_cart,
 		"total": total,
+		"order": order,
 	}
 
 	return render(request, "orders/menu.html", context)

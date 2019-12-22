@@ -39,6 +39,11 @@
 			}
 
 		</style>
+		<script>
+			window.setTimeout( () => {
+				location.href = "{% url 'index' %}";
+			}, 5000);
+		</script>
 	</head>
 	<body>
 	<h1> Welcome {{ user.first_name }}</h1>
@@ -131,7 +136,17 @@
 				<input id="order-btn" type="submit" value="Order">
 			</form>
 		{% else %}
+
 			<div><b>Empty Cart</b></div>
+				
+		{% endif %}
+		{% if order %}
+			{% for i in order %}
+			<ul>
+				<li>Item Ordered - {{ i.item.name }} | Total - ${{ i.grand_total }}</li>
+				<li id="status">Status - {{ i.status }}</li>
+			</ul>
+			{% endfor %}
 		{% endif %}
 	</div>
 
