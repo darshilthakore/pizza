@@ -17,6 +17,7 @@
 			.cart {
 				height: 100%;
 				width: 400px;
+				padding-top: 70px;
 				position: fixed;
 				z-index: 1;
 				top: 0;
@@ -35,7 +36,27 @@
 			.logout-btn a:hover {
 			  background-color: #ddd;
 			  color: black;
+			}
 
+			#cartheader {
+/*				padding-bottom: 40px;*/
+				margin-top: 0px;
+				width: 400px;
+				background-color: lightgray;
+				position: fixed;
+				z-index: 1;
+				top: 0;
+
+			}
+			
+			#orderdetails {
+				align-content: center;
+				background-color: lightgray; 
+				margin-top: 200px;
+				width: 400px;
+				position: fixed;
+				z-index: 1;
+				bottom: 0;
 			}
 
 		</style>
@@ -126,10 +147,11 @@
 	<div class="row">
 		<div class="column"><b>Sub</b></div>
 		<div class="column"><b>Size</b></div>
+		<div class="column"><b>Extra Cheese</b></div>
 		<div class="column"><b>Order</b></div>
 	</div>
 	{% for sub in subs %}
-		<form action="" method="post">
+		<form action="{% url 'cart' sub.id %}" method="post">
 			{% csrf_token %}
 			<div class="row">
 				<div class="column">{{ sub.name }}</div>
@@ -139,6 +161,34 @@
 						<option value="{{ sub.price_large }}">Large : ${{ sub.price_large }}</option>
 					</select>
 				</div>
+
+				<!-- extra cheese -->
+				<div class="column">
+						
+					<select name="toppings" size="2" multiple>
+						{% for topping in toppings %}
+							{% if topping.name == "Cheese" %}
+								<option value="{{ topping.id }}">{{topping.name}} : ${{topping.rate }}</option>
+							{% endif %}							
+						{% endfor %}
+					</select>
+						
+				</div>
+
+
+				{% if sub.name == "Steak + Cheese" %}
+					<div class="column">
+							
+						<select name="toppings" size="2" multiple> <b>Extra option</b>
+							{% for topping in toppings %}
+								{% if topping.name == "Mushrooms" or topping.name == "Green Peppers" or topping.name == "Onions" %}
+								<option value="{{ topping.id }}">{{topping.name}} : ${{topping.rate }}</option>
+								{% endif %}
+							{% endfor %}
+						</select>
+							
+					</div>	
+				{% endif %}
 				<div class="column"><input type="submit" value="Add to cart"></div>
 				
 			</div>
@@ -155,7 +205,7 @@
 		<div class="column"><b>Order</b></div>
 	</div>
 	{% for pasta in pastas %}
-		<form action="" method="post">
+		<form action="{% url 'cart' pasta.id %}" method="post">
 			{% csrf_token %}
 			<div class="row">
 				<div class="column">{{ pasta.name }}</div>
@@ -180,7 +230,7 @@
 		<div class="column"><b>Order</b></div>
 	</div>
 	{% for salad in salads %}
-		<form action="" method="post">
+		<form action="{% url 'cart' salad.id %}" method="post">
 			{% csrf_token %}
 			<div class="row">
 				<div class="column">{{ salad.name }}</div>
@@ -205,7 +255,7 @@
 		<div class="column"><b>Order</b></div>
 	</div>
 	{% for platter in platters %}
-		<form action="" method="post">
+		<form action="{% url 'cart' platter.id %}" method="post">
 			{% csrf_token %}
 			<div class="row">
 				<div class="column">{{ platter.name }}</div>
@@ -224,23 +274,27 @@
 	{% endfor %}	
 
 	<div class="cart">
-		<h2 align="center">Your Cart</h2>
+		<h2 align="center" id="cartheader">Your Cart</h2>
 		{% if user_cart %}
+			<ol>
+
 				{% for c in user_cart %}
-				<div><p><b>Pizza: {{ c.item.name }} | Base Price: ${{ c.base_price }}</b></p></div>
+				<li><div><p><b>{{c.item.category}}: {{ c.item.name }} | Base Price: ${{ c.base_price }}</b></p></div>
 				<div>
 					<ul>
 						{% for topping in c.topping.all %}
-							<li><p> Topping : {{ topping.name }} | Extra charge : ${{ topping.rate }}<p></li>
+							<li><p> Extra Item : {{ topping.name }} | Extra charge : ${{ topping.rate }}<p></li>
 						{% empty %}
-							<p> No toppings. </p>
+							<p> <br></p>
 						{% endfor %}
 					</ul>
 				</div>
 				{% endfor %}
-			<div><b>Total costs: ${{ total }}</b></div>
-			<form action="{% url 'order' %}" method="post">
+				</li>
+			</ol>
+			<form action="{% url 'order' %}" method="post" id="orderdetails">
 				{% csrf_token %}
+				<div><b>Total costs: ${{ total }}</b></div>
 				<input id="order-btn" type="submit" value="Order">
 			</form>
 		{% else %}
