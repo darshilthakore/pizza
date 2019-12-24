@@ -71,6 +71,21 @@
 
 				});
 			}, 5000);
+
+			document.querySelector('#order-btn').onclick = () => {
+
+				var txt;
+				if (confirm("Click Ok to place your order")) {
+					return true;
+
+				} else {
+					return false;
+				}
+			}
+
+
+
+
 		</script>
 	</head>
 	<body>
@@ -292,7 +307,7 @@
 				{% endfor %}
 				</li>
 			</ol>
-			<form action="{% url 'order' %}" method="post" id="orderdetails">
+			<form action="{% url 'order' %}" method="post" id="orderdetails" onsubmit="return confirm('Do you want to place this order?');">
 				{% csrf_token %}
 				<div><b>Total costs: ${{ total }}</b></div>
 				<input id="order-btn" type="submit" value="Order">
