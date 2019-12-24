@@ -3,6 +3,10 @@
 	padding: 10px;
 	width: 170px;
 }
+.logincolumn {
+	float: left;
+	padding: 50px;
+}
 .row {
 	content: "";
 	display: table;
@@ -77,4 +81,15 @@ body {
 	border: 5px solid;
 	border-color: red;
 	border-collapse: collapse;
+}
+
+
+#loginheader {
+	background-color: lightgreen;
+	width: 100%;
+	border: none;
+}
+
+#loginbody {
+	border: none;
 }

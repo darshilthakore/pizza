@@ -5,38 +5,40 @@
 		<title>Login Page</title>
 		<link rel="stylesheet" type="text/css" href="{% static 'orders/style.css' %}">
 	</head>
-	<body>
-		<header>
+	<body id="loginbody">
+		<header id="loginheader">
 			<h1>Pinochio's Pizza and Subs</h1>
 		</header>
 		<div class="row">
-			<h1>Login</h1>
-			{% if message %}
-				<div>
-					{{ message }}
-				</div>
-			{% endif %}
-			<form action="{% url 'login' %}" method="post">
-				{% csrf_token %}
-				<input type="text" name="username"/><br>
-				<input type="password" name="password"/><br>
-				<input type="submit" value="Login"/><br>
+			<div class="logincolumn">
+				<h1>Login</h1>
+				{% if message %}
+					<div>
+						{{ message }}
+					</div>
+				{% endif %}
+				<form action="{% url 'login' %}" method="post">
+					{% csrf_token %}
+					<input type="text" name="username"/><br>
+					<input type="password" name="password"/><br>
+					<input type="submit" value="Login"/><br>
+					
+				</form>
+			</div>
+			<div class="logincolumn">
+				<h1>Register</h1>
+				<form action="{% url 'register' %}" method="post">
+					{% csrf_token %}
+					<input type="text" name="first" placeholder="First Name"/><br>
+					<input type="text" name="last" placeholder="Last Name"/><br>
+					<input type="text" name="username" placeholder="username"/><br>
+					<input type="password" name="password" placeholder="password"/><br>
+					<input type="email" name="email" placeholder="email"/><br>
+					<input type="submit" value="Register"><br>
+				</form>
 				
-			</form>
-		</div>
-
-		<div class="row">
-			<h1>Register</h1>
-			<form action="{% url 'register' %}" method="post">
-				{% csrf_token %}
-				<input type="text" name="first" placeholder="First Name"/><br>
-				<input type="text" name="last" placeholder="Last Name"/><br>
-				<input type="text" name="username" placeholder="username"/><br>
-				<input type="password" name="password" placeholder="password"/><br>
-				<input type="email" name="email" placeholder="email"/><br>
-				<input type="submit" value="Register"><br>
-			</form>
-			
+			</div>
+				
 		</div>
 	</body>
 </html>
