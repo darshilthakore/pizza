@@ -10,7 +10,12 @@ def index(request):
 	if not request.user.is_authenticated:
 		return render(request, "orders/login.html", {"message": None})
 	regularpizza = Category.objects.get(pk="Regular Pizza")
-	#sicilianpizza = Category.objects.get(pk="Sicilian Pizza")
+	sicilianpizza = Category.objects.get(pk="Sicilian Pizza")
+	sub = Category.objects.get(pk="Subs")
+	pasta = Category.objects.get(pk="Pasta")
+	salad = Category.objects.get(pk="Salads")
+	platter = Category.objects.get(pk="Dinner Platters")
+
 	fname = request.user.first_name
 	print(f"User is: {fname}")
 	cart = Cart.objects.filter(user=fname)
@@ -32,7 +37,11 @@ def index(request):
 	context = {
 		"user": request.user,
 		"regularpizzas": regularpizza.itemname.all(),
-		# "sicilianpizzas": sicilianpizza.itemname.all(),
+		"sicilianpizzas": sicilianpizza.itemname.all(),
+		"subs": sub.itemname.all(),
+		"pastas": pasta.itemname.all(),
+		"salads": salad.itemname.all(),
+		"platters": platter.itemname.all(),
 		"toppings": Topping.objects.all(),
 		"user_cart": user_cart,
 		"total": total,

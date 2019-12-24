@@ -40,8 +40,15 @@
 
 		</style>
 		<script>
-			window.setTimeout( () => {
-				location.href = "{% url 'index' %}";
+			window.setInterval( () => {
+				$.ajax({
+					url: '127.0.0.1/8000/',
+					type: 'get',
+					success: function(data) {
+						document.querySelector('#status').innerHTML = data;
+					}
+
+				});
 			}, 5000);
 		</script>
 	</head>
@@ -53,10 +60,10 @@
 	<h2>Menu</h2>
 	<h3>Regular Pizza</h3>
 	<div class="row">
-		<div class="column">Pizza</div>
-		<div class="column">Size</div>
-		<div class="column">Extra Toppings</div>
-		<div class="column">Order</div>
+		<div class="column"><b>Pizza</b></div>
+		<div class="column"><b>Size</b></div>
+		<div class="column"><b>Extra Toppings</b></div>
+		<div class="column"><b>Order</b></div>
 	</div>
 	{% for regularpizza in regularpizzas %}
 		<form action="{% url 'cart' regularpizza.id %}" method="post">
@@ -82,15 +89,15 @@
 			</div>
 		</form>
 	{% endfor %}
-<!-- 	<h3>Sicilian Pizza</h3>
+	<h3>Sicilian Pizza</h3>
 	<div class="row">
-		<div class="column">Pizza</div>
-		<div class="column">Size</div>
-		<div class="column">Extra Toppings</div>
-		<div class="column">Order</div>
+		<div class="column"><b>Pizza</b></div>
+		<div class="column"><b>Size</b></div>
+		<div class="column"><b>Extra Toppings</b></div>
+		<div class="column"><b>Order</b></div>
 	</div>
 	{% for sicilianpizza in sicilianpizzas %}
-		<form action="" method="post">
+		<form action="{% url 'cart' sicilianpizza.id %}" method="post">
 			{% csrf_token %}
 			<div class="row">
 				<div class="column">{{ sicilianpizza.name }}</div>
@@ -104,7 +111,7 @@
 						
 					<select name="toppings" size="2" multiple>
 						{% for topping in toppings %}
-							<option value="{{ topping.id }}">{{topping.name}} : ${{topping.price_small }}</option>
+							<option value="{{ topping.id }}">{{topping.name}} : ${{topping.rate }}</option>
 						{% endfor %}
 					</select>
 						
@@ -113,8 +120,109 @@
 			</div>
 		</form>
 	{% endfor %}
- -->
-	
+
+
+	<h3>Subs</h3>
+	<div class="row">
+		<div class="column"><b>Sub</b></div>
+		<div class="column"><b>Size</b></div>
+		<div class="column"><b>Order</b></div>
+	</div>
+	{% for sub in subs %}
+		<form action="" method="post">
+			{% csrf_token %}
+			<div class="row">
+				<div class="column">{{ sub.name }}</div>
+				<div class="column">
+					<select name="price">
+						<option value="{{ sub.price_small }}">Small : ${{ sub.price_small }}</option>
+						<option value="{{ sub.price_large }}">Large : ${{ sub.price_large }}</option>
+					</select>
+				</div>
+				<div class="column"><input type="submit" value="Add to cart"></div>
+				
+			</div>
+			
+		</form>
+
+	{% endfor %}
+
+
+	<h3>Pasta</h3>
+	<div class="row">
+		<div class="column"><b>Pasta</b></div>
+		<div class="column"><b>Price</b></div>
+		<div class="column"><b>Order</b></div>
+	</div>
+	{% for pasta in pastas %}
+		<form action="" method="post">
+			{% csrf_token %}
+			<div class="row">
+				<div class="column">{{ pasta.name }}</div>
+				<div class="column">
+					<select name="price">
+						<option value="{{ pasta.price_small }}">${{ pasta.price_small }}</option>
+					
+					</select>
+				</div>
+				<div class="column"><input type="submit" value="Add to cart"></div>
+				
+			</div>
+			
+		</form>
+
+	{% endfor %}
+
+	<h3>Salads</h3>
+	<div class="row">
+		<div class="column"><b>Salad</b></div>
+		<div class="column"><b>Price</b></div>
+		<div class="column"><b>Order</b></div>
+	</div>
+	{% for salad in salads %}
+		<form action="" method="post">
+			{% csrf_token %}
+			<div class="row">
+				<div class="column">{{ salad.name }}</div>
+				<div class="column">
+					<select name="price">
+						<option value="{{ salad.price_small }}">${{ salad.price_small }}</option>
+
+					</select>
+				</div>
+				<div class="column"><input type="submit" value="Add to cart"></div>
+				
+			</div>
+			
+		</form>
+
+	{% endfor %}
+
+	<h3>Dinner Platters</h3>
+	<div class="row">
+		<div class="column"><b>Dinner Platter</b></div>
+		<div class="column"><b>Size</b></div>
+		<div class="column"><b>Order</b></div>
+	</div>
+	{% for platter in platters %}
+		<form action="" method="post">
+			{% csrf_token %}
+			<div class="row">
+				<div class="column">{{ platter.name }}</div>
+				<div class="column">
+					<select name="price">
+						<option value="{{ platter.price_small }}">Small : ${{ platter.price_small }}</option>
+						<option value="{{ platter.price_large }}">Large : ${{ platter.price_large }}</option>
+					</select>
+				</div>
+				<div class="column"><input type="submit" value="Add to cart"></div>
+				
+			</div>
+			
+		</form>
+
+	{% endfor %}	
+
 	<div class="cart">
 		<h2 align="center">Your Cart</h2>
 		{% if user_cart %}
