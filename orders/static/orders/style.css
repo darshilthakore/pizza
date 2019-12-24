@@ -1,0 +1,80 @@
+.column {
+	float: left;
+	padding: 10px;
+	width: 170px;
+}
+.row {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.cart {
+	height: 100%;
+	width: 400px;
+	padding-top: 70px;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	right: 0;
+	background-color: lightgreen;
+	overflow-x: hidden; 
+	border : 5px solid;
+	border-color: red;
+	border-collapse: collapse;
+}
+.logout-btn a {
+
+	text-decoration: none;
+	font-size: 20px;
+	color: black;
+	display: block;
+}
+
+.logout-btn a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+#cartheader {
+/*				padding-bottom: 40px;*/
+	margin-top: 0px;
+	width: 400px;
+	background-color: skyblue;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+
+}
+
+#orderdetails {
+	align-content: center;
+	background-color: lightblue; 
+	margin-top: 200px;
+	width: 400px;
+	position: fixed;
+	z-index: 1;
+	bottom: 0;
+}
+
+header {
+	width: 70%;
+	background-color: lightgreen;
+	position: fixed;
+	top: 0;
+	margin-left: 0px;
+	border : 5px solid;
+	border-color: red;
+	border-collapse: collapse;
+
+	
+}
+body {
+	background-color: lightyellow;
+	margin-top: 140px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	border: 5px solid;
+	border-color: red;
+	border-collapse: collapse;
+}

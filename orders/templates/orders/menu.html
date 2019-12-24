@@ -1,65 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Pinochio's Pizza & Subs : Menu | {{ user.first_name }}</title>
-		<style>
-			.column {
-				float: left;
-				padding: 10px;
-				width: 170px;
-			}
-			.row {
-				content: "";
-				display: table;
-				clear: both;
-			}
-
-			.cart {
-				height: 100%;
-				width: 400px;
-				padding-top: 70px;
-				position: fixed;
-				z-index: 1;
-				top: 0;
-				right: 0;
-				background-color: lightgray;
-				overflow-x: hidden; 
-			}
-			.logout-btn a {
-				  padding: 6px 8px 6px 16px;
-				  text-decoration: none;
-				  font-size: 25px;
-				  color: black;
-				  display: block;
-			}
-
-			.logout-btn a:hover {
-			  background-color: #ddd;
-			  color: black;
-			}
-
-			#cartheader {
-/*				padding-bottom: 40px;*/
-				margin-top: 0px;
-				width: 400px;
-				background-color: lightgray;
-				position: fixed;
-				z-index: 1;
-				top: 0;
-
-			}
-			
-			#orderdetails {
-				align-content: center;
-				background-color: lightgray; 
-				margin-top: 200px;
-				width: 400px;
-				position: fixed;
-				z-index: 1;
-				bottom: 0;
-			}
-
-		</style>
+		<title>Pinochio's Pizza & Subs : Menu | Welcome - {{ user.first_name }}</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'orders/style.css' %}">
 		<script>
 			window.setInterval( () => {
 				$.ajax({
@@ -89,10 +33,15 @@
 		</script>
 	</head>
 	<body>
-	<h1> Welcome {{ user.first_name }}</h1>
-	<div class="logout-btn">
+	<header>
+		<h2>Pinocchio's Pizza & Subs</h2>
+		<h3> Welcome {{ user.first_name }}</h3>
+		<div class="logout-btn">
 		<a href="{% url 'logout' %}">LogOut</a>
-	</div>
+		</div>
+	</header>
+	
+	
 	<h2>Menu</h2>
 	<h3>Regular Pizza</h3>
 	<div class="row">
@@ -114,7 +63,7 @@
 				</div>
 				<div class="column">
 						
-					<select name="toppings" size="2" multiple>
+					<select name="toppings" size="3" multiple>
 						{% for topping in toppings %}
 							<option value="{{ topping.id }}">{{topping.name}} : ${{topping.rate }}</option>
 						{% endfor %}
@@ -145,7 +94,7 @@
 				</div>
 				<div class="column">
 						
-					<select name="toppings" size="2" multiple>
+					<select name="toppings" size="3" multiple>
 						{% for topping in toppings %}
 							<option value="{{ topping.id }}">{{topping.name}} : ${{topping.rate }}</option>
 						{% endfor %}
@@ -180,7 +129,7 @@
 				<!-- extra cheese -->
 				<div class="column">
 						
-					<select name="toppings" size="2" multiple>
+					<select name="toppings" size="3" multiple>
 						{% for topping in toppings %}
 							{% if topping.name == "Cheese" %}
 								<option value="{{ topping.id }}">{{topping.name}} : ${{topping.rate }}</option>
@@ -194,7 +143,7 @@
 				{% if sub.name == "Steak + Cheese" %}
 					<div class="column">
 							
-						<select name="toppings" size="2" multiple> <b>Extra option</b>
+						<select name="toppings" size="3" multiple> <b>Extra option</b>
 							{% for topping in toppings %}
 								{% if topping.name == "Mushrooms" or topping.name == "Green Peppers" or topping.name == "Onions" %}
 								<option value="{{ topping.id }}">{{topping.name}} : ${{topping.rate }}</option>
@@ -300,7 +249,7 @@
 						{% for topping in c.topping.all %}
 							<li><p> Extra Item : {{ topping.name }} | Extra charge : ${{ topping.rate }}<p></li>
 						{% empty %}
-							<p> <br></p>
+							<p></p>
 						{% endfor %}
 					</ul>
 				</div>
