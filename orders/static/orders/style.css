@@ -51,6 +51,10 @@
 
 }
 
+.cartlist {
+	margin-bottom: 130px;
+}
+
 #orderdetails {
 	align-content: center;
 	background-color: lightblue; 
