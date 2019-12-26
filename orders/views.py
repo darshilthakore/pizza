@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 # Create your views here.
@@ -124,3 +124,18 @@ def submit_order(request):
 		cart.delete()
 
 	return HttpResponseRedirect(reverse("index"))
+
+
+def remove_cart_item(request):
+	print("removing cart item")
+	item_id = request.POST['item_id']
+
+	item = Cart.objects.get(pk=item_id)
+	user = item.user
+	item.delete()
+	items = Cart.objects.filter(user=user)
+	total = 0
+	for item in items:
+		total += item.grand_total
+
+	return JsonResponse({"total": total})

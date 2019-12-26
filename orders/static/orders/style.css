@@ -23,9 +23,9 @@
 	right: 0;
 	background-color: lightgreen;
 	overflow-x: hidden; 
-	border : 5px solid;
+	/*border : 5px solid;
 	border-color: red;
-	border-collapse: collapse;
+	border-collapse: collapse;*/
 }
 .logout-btn a {
 
@@ -36,7 +36,7 @@
 }
 
 .logout-btn a:hover {
-  background-color: #ddd;
+  background-color: red;
   color: black;
 }
 
@@ -44,7 +44,7 @@
 /*				padding-bottom: 40px;*/
 	margin-top: 0px;
 	width: 400px;
-	background-color: skyblue;
+	background-color: red;
 	position: fixed;
 	z-index: 1;
 	top: 0;
@@ -62,15 +62,15 @@
 }
 
 header {
-	width: 70%;
+	width: 74%;
 	background-color: lightgreen;
 	position: fixed;
 	top: 0;
 	margin-left: 0px;
-	border : 5px solid;
+	/*border : 5px solid;
 	border-color: red;
 	border-collapse: collapse;
-
+*/
 	
 }
 body {
@@ -78,9 +78,9 @@ body {
 	margin-top: 140px;
 	margin-bottom: 0px;
 	margin-left: 0px;
-	border: 5px solid;
+	/*border: 5px solid;
 	border-color: red;
-	border-collapse: collapse;
+	border-collapse: collapse;*/
 }
 
 

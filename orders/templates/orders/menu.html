@@ -5,27 +5,63 @@
 		<title>Pinochio's Pizza & Subs : Menu | Welcome - {{ user.first_name }}</title>
 		<link rel="stylesheet" type="text/css" href="{% static 'orders/style.css' %}">
 		<script>
-			window.setInterval( () => {
-				$.ajax({
-					url: '127.0.0.1/8000/',
-					type: 'get',
-					success: function(data) {
-						document.querySelector('#status').innerHTML = data;
+			document.addEventListener('DOMContentLoaded', () => {
+				window.setInterval( () => {
+					$.ajax({
+						url: '127.0.0.1/8000/',
+						type: 'get',
+						success: function(data) {
+							document.querySelector('#status').innerHTML = data;
+						}
+
+					});
+				}, 5000);
+
+				document.querySelector('#order-btn').onclick = () => {
+
+					var txt;
+					if (confirm("Click Ok to place your order")) {
+						return true;
+
+					} else {
+						return false;
 					}
-
-				});
-			}, 5000);
-
-			document.querySelector('#order-btn').onclick = () => {
-
-				var txt;
-				if (confirm("Click Ok to place your order")) {
-					return true;
-
-				} else {
-					return false;
 				}
-			}
+
+
+				document.addEventListener('click', event => {
+                const element = event.target;
+                const item_id = document.querySelector('.removeitem').value;
+                if (element.className === 'removeitem') {
+                    element.parentElement.remove();
+                }
+
+                const request = new XMLHttpRequest();
+
+
+                request.open('POST', 'removeitem');
+
+                // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                request.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                request.onload = () => {
+                	const data = JSON.parse(request.responseText);
+                	const contents = `Total Costs: $${data.total}`
+                	document.querySelector('#updated_total').innerHTML = contents;
+
+
+                }
+                
+
+                const data = new FormData();
+                data.append('item_id', item_id);
+
+
+                request.send(data);
+
+            	});
+
+
+			});
 
 
 
@@ -243,8 +279,9 @@
 			<ol>
 
 				{% for c in user_cart %}
+				<div class="listitem">
 				<li><div><p><b>{{c.item.category}}: {{ c.item.name }} | Base Price: ${{ c.base_price }}</b></p></div>
-				<div>
+				
 					<ul>
 						{% for topping in c.topping.all %}
 							<li><p> Extra Item : {{ topping.name }} | Extra charge : ${{ topping.rate }}<p></li>
@@ -252,13 +289,17 @@
 							<p></p>
 						{% endfor %}
 					</ul>
+					
+				</li>
+				<button class="removeitem" value="{{c.id}}">Remove Item</button>
 				</div>
 				{% endfor %}
-				</li>
+				
+				
 			</ol>
 			<form action="{% url 'order' %}" method="post" id="orderdetails" onsubmit="return confirm('Do you want to place this order?');">
 				{% csrf_token %}
-				<div><b>Total costs: ${{ total }}</b></div>
+				<div><b id="updated_total">Total costs: ${{ total }}</b></div>
 				<input id="order-btn" type="submit" value="Order">
 			</form>
 		{% else %}
