@@ -17,16 +17,16 @@
 					});
 				}, 5000);
 
-				document.querySelector('#order-btn').onclick = () => {
+				// document.querySelector('#order-btn').onclick = () => {
 
-					var txt;
-					if (confirm("Click Ok to place your order")) {
-						return true;
+				// 	var txt;
+				// 	if (confirm("Click Ok to place your order")) {
+				// 		return true;
 
-					} else {
-						return false;
-					}
-				}
+				// 	} else {
+				// 		return false;
+				// 	}
+				// }
 
 
 				document.addEventListener('click', event => {
@@ -34,32 +34,33 @@
                 const item_id = document.querySelector('.removeitem').value;
                 if (element.className === 'removeitem') {
                     element.parentElement.remove();
-                }
-
-                const request = new XMLHttpRequest();
-
-
-                request.open('POST', 'removeitem');
-
-                // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-                request.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
-                request.onload = () => {
-                	const data = JSON.parse(request.responseText);
-                	const contents = `Total Costs: $${data.total}`
-                	document.querySelector('#updated_total').innerHTML = contents;
-
-
-                }
                 
 
-                const data = new FormData();
-                data.append('item_id', item_id);
+	                const request = new XMLHttpRequest();
 
 
-                request.send(data);
+	                request.open('POST', 'removeitem');
 
-            	});
+	                // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+	                request.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+	                request.onload = () => {
+	                	const data = JSON.parse(request.responseText);
+	                	const contents = `Total Costs: $${data.total}`
+	                	document.querySelector('#updated_total').innerHTML = contents;
 
+
+	                }
+	                
+
+	                const data = new FormData();
+	                data.append('item_id', item_id);
+
+
+	                request.send(data);
+
+	            	
+				}
+				});
 
 			});
 
